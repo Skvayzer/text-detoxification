@@ -53,5 +53,25 @@ def preprocess_df(data: pd.DataFrame,
     return data_preprocessed
 
 
+import subprocess, os
+
+dataset_url = "https://github.com/skoltech-nlp/detox/releases/download/emnlp2021/filtered_paranmt.zip"
+dataset_dest = "data/raw/"
+dataset_name = "filtered_paranmt.zip"
+
+def download_file(url: str, dest: str, filename: str):
+    subprocess.run(["wget", url, "-O", dest + filename], check=True)
+
+try:
+    print("Trying to download the dataset...")
+    download_file(dataset_url, dataset_dest, dataset_name)
+    print(f"Dataset has been downloaded successfully")
+
+    print("Unzipping...")
+    subprocess.run(["unzip", dataset_dest + dataset_name, "-d", "data/raw/"])
+    print("Dataset is ready!")
+except Exception:
+    print("Something went wrong\nMake sure you run this script from the project root!")
+
 
 
